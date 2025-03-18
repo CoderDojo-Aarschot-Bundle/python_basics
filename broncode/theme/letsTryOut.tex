@@ -1,0 +1,27 @@
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+
+
+\definecolor{darkYellow}{rgb}{.6, .6, 0}
+\definecolor{starsYellow}{RGB}{250, 250, 125}
+\colorlet{starsYellowBright}{starsYellow!33!white}
+\definecolor{purpleRredNebula}{RGB}{170,0,119}
+
+\newenvironment{letsTryOut}{
+	\begin{center}
+		\begin{adjustbox}{bgcolor=starsYellowBright, cframe=darkYellow}
+			\begin{adjustbox}{margin=1em}
+				\begin{minipage}{.07\linewidth}
+					\includegraphics[width=\linewidth]{theme/letsTryOut.jpg}
+				\end{minipage}
+				\hspace*{2mm} \textcolor{purpleRredNebula}{\vrule} \hspace*{1mm}
+				\begin{minipage}{.7\linewidth}
+					\raggedright                                                % text alignment justify without ...
+					\itshape
+	}{
+				\end{minipage}
+			\end{adjustbox}
+		\end{adjustbox}
+	\end{center}
+}

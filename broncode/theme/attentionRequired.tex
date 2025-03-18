@@ -1,0 +1,38 @@
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+
+
+\definecolor{lightRed}{rgb}{1, 0.85, 0.8}
+\definecolor{darkRed}{rgb}{0.5, 0, 0}
+
+\newenvironment{attentionRequired}{
+	\begin{center}
+		\begin{adjustbox}{bgcolor=lightRed, cframe=red}
+			\begin{adjustbox}{margin=1em}
+				\begin{minipage}{.03\linewidth}
+					\includegraphics[width=\linewidth]{theme/exclamationMark3D.png}
+				\end{minipage}
+				\hspace*{2mm} \textcolor{red}{\vrule} \hspace*{1mm}
+				\begin{minipage}{.7\linewidth}
+					\raggedright                                                % text alignment justify without ...
+					\itshape
+	}{
+				\end{minipage}
+			\end{adjustbox}
+		\end{adjustbox}
+	\end{center}
+}
+
+\newenvironment{firstAidToErrors}[1]{
+	\begin{attentionRequired}
+		{\tiny \textcolor{darkRed}{EHBF - Eerste Hulp Bij Foutmeldingen}}
+		\newline
+		\pySnip{#1}
+		\newline
+		Je ziet deze error, wat nu?
+		\newline
+		\newline
+}{
+	\end{attentionRequired}
+}

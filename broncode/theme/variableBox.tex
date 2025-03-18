@@ -1,0 +1,16 @@
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit}
+
+
+\newcommand{\variabeleBox}[2]{
+	\begin{scope}
+		\draw node[draw, fill=brown, minimum width=9em, minimum height=4.7em](front){};
+		\draw node[draw, fill=white, anchor=north west](varName) at ($(front.north west) + (0.4em, -0.4em)$) {#1};
+		% \draw node[draw, fill=white, anchor=south east, rounded corners=0.4em](varValue) at ($(front.south east) + (-0.7em, 0.7em)$) {#2};
+		\draw node[anchor=center](varValue) at ($(front.south) + (0, 1.47em)$) {\pySnip[3pt]{#2}};
+		\path[draw, fill=brown] (front.north west) -- ++(1.5em, 1.5em) -- ($(front.north east) + (1.5em, 1.5em)$) -- (front.north east);
+		\draw ($(front.north west) + (0.75em, 0.75em)$) -- ($(front.north east) + (0.75em, 0.75em)$);
+		\path[draw, fill=brown] (front.south east) -- ++(1.5em, 1.5em) -- ($(front.north east) + (1.5em, 1.5em)$) -- (front.north east);
+	\end{scope}
+}

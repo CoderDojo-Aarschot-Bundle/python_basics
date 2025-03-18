@@ -1,0 +1,141 @@
+\section{Gegevens}
+
+Doorheen een computerporgrammaatje gaan we bijna altijd met gegevens zitten goochelen.
+Maar wat zijn gegevens nu juist?
+En kunnen we zomaar van het ene type naar het andere gaan?
+
+\subsection{Verschillende soorten}
+
+Laten we beginnen met een eerste kennismaking met de meest voorkomend soorten gegevens.
+
+\subsubsection{Text: \stringtype}
+
+De eerste soort gegevens die we tegenkomen zijn teksten.
+Een tekst is een reeks van karakters.
+Een karakter is een letter, cijfer, leesteken, spatie, ... .
+We beginnen en eindigen tekst altijd met aanhalingstekens (\verb|"|).
+\begin{pyEnv}
+"Dit is een tekst"
+"47"                        # ook dat is tekst
+\end{pyEnv}
+
+\subsubsection{Getallen: \integertype en \floattype}
+
+Een volgende soort gegevens zijn getallen.
+We maken een onderscheid tussen getallen zonder en met komma:
+\begin{itemize}
+\item Getallen zonder komma noemen we integers (het Engelse woord voor gehele gatellen): \integertype.
+\item Getallen met komma noemen we floats (het Engelse woord voor 'vlottende' komma): \floattype.
+\end{itemize}
+\begin{pyEnv}
+47                          # integer
+@float47.0@                        # opgelet, een float!
+@float3.14@                        # float
+\end{pyEnv}
+
+\begin{letsTryOut}
+	In python kan je van iedere waarde opvragen tot welke soort gegevens het hoort.
+	Hiervoor gebruik je de functie \pySnip{type()}.
+	\newline
+	Weet jij het verschil tussen \pySnip{"47"}, \pySnip{47} en \pySnip{FL47.0T}?
+	\newline
+	Probeer het eens in de interactive shell!
+\begin{pyEnv}
+>>> type("47")
+>>> type(47)
+>>> type(@float47@)
+\end{pyEnv}
+\end{letsTryOut}
+
+\subsubsection{Logische waarde: \booleantype}
+
+Een andere veelvoorkomende soort gegevens zijn logische waarden.
+Er bestaan exact twee logische waarden:
+\begin{itemize}
+	\item \true: de uitkomst is juist.
+	\item \false: de uitkomst is fout.
+\end{itemize}
+\begin{pyEnv}
+True
+False
+# dit zijn de enige twee logische waardes die bestaan
+\end{pyEnv}
+
+\subsection{Transformaties}
+
+Het is heel belangrijk dat je je realiseert dat python de verschillende soorten gegevens anders behandelt.
+Ook al lijken ze voor jou op elkaar, zo python ziet een groot verschil tussen \pySnip{"47"} en \pySnip{47}.
+Gelukkig kunnen we meestal heel eenvoudig een waarde van de ene soort omzetten naar een waarde van een andere soort.
+Dit doen we met functies die dezelfde naam hebben als de verschillende soorten gegevens.  % I know, those aren't functions
+                                                                                          % but it's a children's story ...
+Namelijk:
+\begin{itemize}
+	\item \pySnip{str(_)}: een waarde omzetten naar tekst
+	\item \pySnip{int(_)}: een waarde omzetten naar getal (zonder komma)
+	\item \pySnip{float(_)}: een waarde omzetten naar kommagetal
+	\item \pySnip{bool(_)}: een waarde omzetten naar logische waarde
+\end{itemize}
+
+\begin{letsTryOut}
+	We hebben deze twee waardes verkregen van de gebruiker via de functie \pySnip{input()}:
+	\pySnip{"12"} en \pySnip{"36"}.
+	\newline
+	% Merk op dat wat je krijgt van \pySnip{input()} altijd tekst is.
+	We willen de gebruiker de som (\pySnip{+}) van deze twee getallen tonen.
+	We kunnen dat rechtsreeks met de gekregen tekst doen.
+	Of we kunnen de waardes eerst omvormen naar getallen.
+	\newline
+	Is er een verschil, denk je?
+	\newline
+	Had je het juist? Kan je uitleggen waarom?
+\begin{pyEnv}
+>>> "12" + "36"
+>>> int("12") + int("36")
+\end{pyEnv}
+\end{letsTryOut}
+
+\begin{letsTryOut}
+	Laten we nog eens iets anders proberen.
+	Het getal \pySnip{@float3.14@} is een \pySnip{float}, akkoord?
+	Kunnen we dit omvormen naar een waarde van het type \pySnip{int} denk je?
+	\newline
+	Zullen we dat eens samen proberen?
+\begin{pyEnv}
+>>> int(@float3.14@)
+\end{pyEnv}
+\end{letsTryOut}
+
+\subsection{Kort overzicht}
+
+%%CHEAT_SHEET_START
+
+\begin{itemize}
+	\item
+		\stringtype
+		\newline
+		Tekst, begint en eindigt met aanhalingstekens
+		\newline
+		vb. \pySnip{"Dit is een tekst"}
+	\item
+		\integertype
+		\newline
+		Gehele getallen (getallen zonder komma)
+		\newline
+		vb. \pySnip{47}
+	\item
+		\floattype
+		\newline
+		Getallen met komma
+		\newline
+		vb. \pySnip{@float3.14@}
+	\item
+		\booleantype
+		\newline
+		Logische waarden
+		\newline
+		\true of \false
+	\item
+		Gegevens omvormen van het de ene soort in de andere:
+		\newline
+		\pySnip{str(_)}, \pySnip{int(_)}, \pySnip{float(_)}, \pySnip{bool(_)}
+\end{itemize}

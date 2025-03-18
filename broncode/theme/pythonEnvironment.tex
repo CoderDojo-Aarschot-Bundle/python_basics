@@ -1,0 +1,138 @@
+\usepackage{xcolor}
+\usepackage{pgf}
+\usepackage{listings}
+\usepackage{tikz}
+
+
+\definecolor{darkBlue}{rgb}{0,0,0.5}
+\definecolor{darkGreen}{rgb}{0, 0.5, 0}
+\definecolor{darkRed}{rgb}{0.5, 0, 0}
+\definecolor{wineRed}{rgb}{0.7, 0.1, 0.2}
+\definecolor{darkCyan}{rgb}{0, 0.5, 0.5}
+
+\renewcommand{\ttdefault}{pcr}                                                  % use Courier font instead of Computer Modern
+																				% because it has bold face
+
+% python style for highlighting
+\lstdefinestyle{pythonstyle}{
+	language=Python,
+	basicstyle=\small\ttfamily\color{blue},                                     % applicable to numbers since all other items will get its specific styles defined
+	identifierstyle =\ttfamily\color{black},
+	literate=
+		% other identifiers
+		{:}{{\textcolor{black}{:}}}1
+		{;}{{\textcolor{black}{;}}}1
+		{(}{{\textcolor{black}{(}}}1
+		{)}{{\textcolor{black}{)}}}1
+		{<}{{\textcolor{black}{<}}}1
+		{>}{{\textcolor{black}{>}}}1
+		{>>>}{{\textcolor{gray}{>>>}}}3
+		{=}{{\textcolor{black}{=}}}1
+		{+}{{\textcolor{black}{+}}}1
+		{-}{{\textcolor{black}{-}}}1
+		{*}{{\textcolor{black}{*}}}1
+		{/}{{\textcolor{black}{/}}}1
+		{&}{{\textcolor{black}{&}}}1
+		{|}{{\textcolor{black}{|}}}1,
+	commentstyle=\color{gray},
+	keywordstyle=\bfseries\color{darkBlue},
+	morekeywords={self,None},
+	% boolean values
+	morekeywords=[3]{True,False},	 
+	keywordstyle=[3]\color{darkGreen},
+	emph=[3]{bool},	 
+	emphstyle=[3]\bfseries\color{darkGreen},
+	% integer values
+	emph=[4]{int},	 
+	emphstyle=[4]\bfseries\color{blue},
+	% float values
+	emph=[5]{float},	 
+	emphstyle=[5]\bfseries\color{orange},
+	% there is no direct way to differentiate between float and int in lstlisting
+	% the only thing that is possible is to apply a different style to the dot, which only appears in floats
+	% literate=
+	% 	{.}{{\textcolor{orange}{.}}}1,
+	% another option is to use markers to differentiate floats from ints
+	% it's not perfect because it requires an extra action from the user
+	% but it will work towards the generated pdf
+	% moredelim=[is][\bfseries\color{orange}]{FL}{T},
+	moredelim=[is][\bfseries\color{orange}]{@float}{@},
+	% string values
+	% morekeywords=[6]{str},	 
+	% keywordstyle=[6]\color{wineRed},
+	emph=[6]{str},
+	emphstyle=[6]\bfseries\color{wineRed},
+	stringstyle=\color{wineRed},
+	% errors
+	emph=[7]{NameError,IndentationError},	 
+	emphstyle=[7]\bfseries\color{darkRed},
+	% other styling options
+	frame=ltrb,
+	framexleftmargin=0.7em,
+	xleftmargin=2em,
+	framexrightmargin=0.7em,
+	xrightmargin=2em,
+	backgroundcolor=\color[rgb]{.96, 1, 1},
+	% numbers=left,
+	% numberstyle=\tiny\color{gray},
+	keepspaces=true,
+	% showtabs=true,
+	tabsize=4,
+	showstringspaces=false,
+	columns=fullflexible,                                                       % copy-pastable code, preserving exact amount of spaces
+	                                                                            % but ... https://stackoverflow.com/a/3529488
+	escapechar=$,
+}
+
+% python environment
+\newcommand{\highlight}{\makebox[0pt]{
+	% looks like text will be centered in box if overflow exists
+	% so solution
+	% -> create two backgrounds and have the box located at start of line
+	%    the second bg will be placed just behind the line
+	\color{white}\pgfsetfillopacity{0  }\rule[-1ex]{\linewidth}{3ex}
+	\color{green}\pgfsetfillopacity{0.3}\rule[-1ex]{\linewidth}{3ex}
+	\pgfsetfillopacity{1}                                                   % restore value
+}}
+\newenvironment{Separator}[1][0pt]{\parskip=#1\par}{\par\noindent}
+\lstnewenvironment{pyEnv}{
+	\lstset{style=pythonstyle}
+	\begin{Separator}[0.7em]
+	\end{Separator}
+	\minipage{\textwidth}
+}{
+	\endminipage
+	\begin{Separator}[0.2em]
+	\end{Separator}
+}
+
+% python for inline
+\newcommand{\codeInline}[2][2pt]{\tikz[baseline=(X.base)]\node [draw=darkgray, rectangle, fill=white, inner sep=#1, rounded corners=1pt] (X) {#2};}
+% \newcommand{\pySnip}[2][2pt]{\codeInline[#1]{\pythonstyle\lstinline!#2!}}
+\newcommand{\pySnip}[2][2pt]{\codeInline[#1]{\lstinline[style=pythonstyle]!#2!}}
+
+% % python for external files
+% \newcommand\pythonexternal[2][]{{
+% \pythonstyle
+% \lstinputlisting[#1]{#2}}}
+
+\newcommand{\datatype}[2][darkCyan]{
+	\codeInline{\textcolor{#1}{\texttt{#2}}}
+}
+% \newcommand{\booleantype}{\datatype[darkGreen]{bool}}
+% \newcommand{\integertype}{\datatype[blue]{int}}
+% \newcommand{\floattype}{\datatype[orange]{float}}
+% \newcommand{\stringtype}{\datatype[wineRed]{str}}
+\newcommand{\booleantype}{\pySnip{bool}}
+\newcommand{\integertype}{\pySnip{int}}
+\newcommand{\floattype}{\pySnip{float}}
+\newcommand{\stringtype}{\pySnip{str}}
+
+% \newcommand{\value}[2][darkCyan]{
+% 	\textcolor{#1}{
+% 		\texttt{#2}
+% 	}
+% }
+\newcommand{\true}{\pySnip{True}}
+\newcommand{\false}{\pySnip{False}}
+\newcommand{\errorType}[1]{\texttt{\datatype[darkRed]{#1}}}

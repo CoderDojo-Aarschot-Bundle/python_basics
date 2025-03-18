@@ -1,0 +1,206 @@
+\section{Variabelen}
+
+Wanneer we een programma maken, dan gaan we dit vaak in kleine stapjes opbouwen.
+Heel vaak hebben we het resultaat van een vorige stap nodig in de volgende.
+Dus moeten we dit resultaat (tijdelijk) kunnen onthouden tussen de verschillende stappen.
+Dit doen we door gebruik te maken van variabelen.
+
+\subsection{Wat is een variabele?}
+
+Een variabele is een soort doosje waarin we gegevens kunnen opslaan.
+We kunnen dit doosje een naam geven, zodat we het later nog weten wat er in zit.
+Zo een doosje kan ook leeg zijn, in python wordt dit aangegeven door het woordje \pySnip{None}.
+\par
+De volgende figuur toont een voorbeeld van vier variabelen die een paar eigenschappen van een jongen/meisje bijhouden.
+\begin{itemize}
+	\item
+		\ref{variabelsExample1.name}: een variable \pySnip{naam: str} voor je naam.
+	\item
+		\ref{variabelsExample1.age}: een variable \pySnip{leeftijd: int} voor je leeftijd.
+	\item
+		\ref{variabelsExample1.outdoorPlayer}: een variable \pySnip{isBuitenSpeler: bool} om aan te geven of je graag buiten speelt.
+	\item
+		\ref{variabelsExample1.company}: een variable \pySnip{werkgever: str | None} om bij te houden waar je werkt,
+		de waarde None betekent dat dit doosje leeg is (dus dat je nog niet werkt).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{.2\textwidth}
+		\centering
+		\scalebox{.7}{
+			\begin{tikzpicture}
+				\variabeleBox{naam}{"Maxime"}
+			\end{tikzpicture}
+		}
+		\caption{}
+		\label{variabelsExample1.name}
+	\end{subfigure}
+	\begin{subfigure}[b]{.2\textwidth}
+		\centering
+		\scalebox{.7}{
+			\begin{tikzpicture}
+				\variabeleBox{leeftijd}{11}
+			\end{tikzpicture}
+		}
+		\caption{}
+		\label{variabelsExample1.age}
+	\end{subfigure}
+	\begin{subfigure}[b]{.2\textwidth}
+		\centering
+		\scalebox{.7}{
+			\begin{tikzpicture}
+				\variabeleBox{isBuitenSpeler}{True}
+			\end{tikzpicture}
+		}
+		\caption{}
+		\label{variabelsExample1.outdoorPlayer}
+	\end{subfigure}
+	\begin{subfigure}[b]{.2\textwidth}
+		\centering
+		\scalebox{.7}{
+			\begin{tikzpicture}
+				\variabeleBox{werkgever}{None}
+			\end{tikzpicture}
+		}
+		\caption{}
+		\label{variabelsExample1.company}
+	\end{subfigure}
+	\caption{
+		Een voorbeeld van vier variabelen die een paar eigenschappen van een jongen/meisje bevatten.
+	}
+\end{figure}
+
+\subsection{Spelen met variabelen}
+
+\subsubsection{Een nieuwe variabele maken}
+
+In python gebruiken we een isgelijkteken \pySnip{=} om een variabele een nieuwe waarde te geven.
+De naam van de waarde komt voor het isgelijkteken en kan bestaan uit
+(hoofd)letters (A/a - Z/z), cijfers (0 - 9, maar niet het eerste karakter van de naam) en een liggend streepje (\_).
+Als er geen variabele bestaat met de gegeven naam, dan wordt er een nieuwe gemaakt met deze naam,
+en krijgt deze de waarde die je rechts van het isgelijkteken staan hebt.
+
+\subsubsection{Een nieuwe waarde voor een bestaande variabele}
+
+Eenmaal een doosje bestaat,
+dan ga zijn inhoud regelmatig veranderen door een nieuwe waarde.
+Gelukkig kunnen we heel gemakkelijk zo een nieuwe waarde toekennen aan een bestaande variabele!
+Eigenlijk is dat juist hetzelfde als wanneer we de variabele de eerste keer gemaakt hebben,
+ook gewoon met het \pySnip{=} teken.
+Als de variabele deze keer al bestaat,
+dan wordt de waarde in dit doosje gewoon vervangen en wordt er geen nieuw doosje aangemaakt.
+
+\subsubsection{De waarde uit een variabele gebruiken}
+
+Wanneer we een doosje een inhoud geven,
+dan doen we dat natuurlijk omdat we daar later iets mee willen doen.
+Waardes kunnen we al gebruiken,
+en dat doen we gewoon door ze te typen waar we ze nodig hebben, toch?
+Wel, voor variabelen doen we gewoon hetzelfde:
+we typen gewoon de variabele waar we ze nodig hebben.
+Simpel he!
+
+\begin{letsTryOut}
+	Hier vind je twee voorbeelden die beide 'hallo'| lijken te zullen tonen.
+	Denk je dat beide voorbeelden hetzelfde zullen doen, waarom wel/niet?
+	\newline
+	Kan jij deze voorbeelden eens uitproberen?
+\begin{pyEnv}
+>>> print("hallo")
+\end{pyEnv}
+\begin{pyEnv}
+>>> hallo = "bonjour"
+>>> print(hallo)
+\end{pyEnv}
+	Oh ja, \verb|'bonjour'| is het Franse woord voor \verb|'goeiedag'|.
+\end{letsTryOut}
+
+\subsubsection{Een groter voorbeeldje}
+
+Zullen we nu eens verschillende variabelen maken, aanpassen en gebruiken?
+En dat allemaal in \'e\'en groot voorbeeld?!
+Neem zeker eens een kijkje naar het stukje code hieronder.
+
+\begin{pyEnv}
+naam = "Maxime"             # een nieuwe variabele 'naam'
+                            # met de waarde 'Maxime'
+
+leeftijd = 11               # een tweede nieuwe variabele 'leeftijd'
+						    # met de waarde '11'
+
+activiteit = "kamp bouwen"  # een derde nieuwe variabele 'activiteit'
+							# voor de huidige bezigheid van Maxime
+
+activiteit = None           # Maxime verveelt zich,
+                            # en heeft dus niets te doen
+							# -> het doosje moet nu dus leeg zijn
+							#    dat is waarvoor we 'None'
+							#    gebruiken in python
+
+activiteit = "avond eten"   # etenstijd
+
+leeftijd = leeftijd + 1     # Maxime is jarig!
+                            # de nieuwe waarde voor het doosje
+							# 'leeftijd' is de huidige waarde plus 1
+
+print(f"{naam} is ondertussen al {leeftijd} jaar!")
+\end{pyEnv}
+
+\begin{letsTryOut}
+	Welke leeftijd zou er getoond worden door de \pySnip{print()} onderaan uit bovenstaand stukje code?
+	Is dat 11 jaar, de waarde die we er in het begin in de variabele hebben ingestoken?
+	\newline
+	Tip: je kan de code uit het voorbeeld hierboven kopiëren en plakken in de interactive shell.
+\end{letsTryOut}
+
+\begin{firstAidToErrors}{NameError}
+	Werkt je code niet en je krijgt in de plaats output in de vorm van:
+	\newline
+	\verb|NameError: name 'abc' is not defined|
+	\newline
+	Dat de manier waarop python je vertelt dat hij de variabele \verb|abc| niet kent.
+	Misschien heb je een typfoutje gemaakt in de naam van je variabele?
+	Controleer of je de naam van je variabele overal hetzelfde hebt geschreven.
+	En probeer daarna of het wel werkt.
+\end{firstAidToErrors}
+
+\subsection{Kort samengevat}
+
+%%CHEAT_SHEET_START
+
+\begin{itemize}
+	\item
+		Een variabele is een doosje waarin we gegevens kunnen opslaan.
+		\begin{figure}[H]
+			\centering
+			\scalebox{.7}{
+				\begin{tikzpicture}
+					\variabeleBox{naam}{"Maxime"}
+				\end{tikzpicture}
+			}
+		\end{figure}
+	\item
+		\pySnip{mijnVariabele = <waarde>}
+		\newline
+		Een nieuwe variabele maken we met het isgelijkteken \pySnip{=}.
+		De naam van de variabele komt voor het isgelijkteken en de waarde die we er in willen stoppen komt er achter.
+	\item
+		\pySnip{mijnVariabele = <nieuweWaarde>}
+		\newline
+		We kunnen een bestaande variabele ook een nieuwe waarde geven.
+		Dit doen we net op dezelfde manier zoals we een nieuwe variabele maken.
+		Maar nu bestaat de variabele al en wordt de waarde in het doosje gewoon vervangen.
+	\item
+		\pySnip{print(mijnVariabele)}
+		\newline
+		De waarde in een variabele kan je gebruiken door de naam van de variabele te typen
+		op de plaats waar je deze waarde nodig hebt.
+		Deze waarde kan je dan gebruiken zoals je dat met een gewone waarde zou doen.
+	\item
+		\pySnip{mijnVariabele = None}
+		\newline
+		Moet het doosje leeg zijn?
+		Dan gebruik je de waarde \pySnip{None}.
+		In python geeft de speciale waarde \pySnip{None} aan dat het doosje leeg is.
+\end{itemize}

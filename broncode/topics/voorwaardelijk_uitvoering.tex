@@ -1,0 +1,208 @@
+\section{Voorwaardelijke uitvoering: \pySnip{if ... elif ... else}}
+
+\subsection{\pySnip{if}-statement}
+
+In de uitvoering van een eenvoudig python programma,
+wordt iedere regel code gewoon uitgevoerd in de volgorde dat ze in het programma staan.
+Maar soms komt het voor dat je bepaalde code enkel wil uitvoeren als aan een bepaalde voorwaarde is voldaan.
+Bijvoorbeeld, je wil op het einde van een spel enkel de boodschap 'Je bent gewonnen!' tonen als de speler ook echt gewonnen heeft.
+In het andere geval wil je waarschijnlijk juist de boodschap 'Je bent verloren ...' tonen.
+Zo een voorwaarde koppelen aan de uitvoering van een stukje van de code kan je doen met een \pySnip{if voorwaarde: ...}-statement.
+Het statement is opgebouwd als volgt:
+\begin{pyEnv}
+# deze code wordt sowieso uitgevoerd
+if voorwaarde:
+	# code die enkel wordt uitgevoerd
+	# als voorwaarde resulteert in True
+	# anders wordt deze code overgeslagen
+# deze code wordt ook terug altijd uitgevoerd
+\end{pyEnv}
+Hierin is \pySnip{voorwaarde} een expressie tot een logische waarde (herinner je, dat is het type \booleantype).
+Aleen en slechts alleen als de waarde van \pySnip{voorwaarde} \true is, dan wordt de code in het \pySnip{if}-blok uitgevoerd.
+Deze voorwaarde kan van alles zijn:
+\begin{itemize}
+	\item
+		een vaste logische waarde: \\
+		vb. \pySnip{if True: ...} / \pySnip{if False: ...} waarin het \pySnip{if}-blok altijd / nooit wordt uitgevoerd.
+	\item
+		een variable zijn die een logische waarde bevat: \\
+		vb. \pySnip{if spelerIsGewonnen: print("Je bent gewonnen\!")}.
+	\item een expressie zijn die een logische waarde oplevert: \\
+		vb. \pySnip{if aantalPogingen < 3: print("Je bent een genie\!")}.
+\end{itemize}
+Een \pySnip{if}-blok begint zodra je een \pySnip{if}-statement gebruikt hebt.
+Iedere regel code waarvan je wil dat het tot dit blok behoort, moet je inspringen.
+Een regel code is ingesprongen als er minstens één spatie of tab voor staat.
+Het blok loopt door tot aan de eerstvolgende regel code die niet meer ingesprongen is.
+Let op, al de regels code die tot hetzelfde blok behoren, moeten allen gelijk ingesprongen zijn.
+Je mag hiervoor geen spaties en tabs door elkaar gebruiken!
+
+\begin{letsTryOut}
+	Dat is een hele boterham, he?
+	Kan jij dat allemaal nog volgen?
+	Zullen we eens kijken naar een voorbeeldje?
+	Probeer je eens om te voorspellen wat de output gaat zijn van het volgende programma?
+	\newline
+	Nadien kan je het programma kopiëren en uitvoeren in de interactive shell om te zien of je voorspelling juist was.
+\begin{pyEnv}
+# de uitvoering van dit programma
+# begint hier bij de eerste regel code
+spelerIsGewonnen = True
+aantalPogingen = 2
+
+if spelerIsGewonnen:
+	# deze blok code wordt enkel uitgevoerd
+	# als spelerIsGewonnen True is
+	print("Je ben gewonnen!")
+	if aantalPogingen < 3:
+		# je kan een if-statement ook in
+		# een ander if-statement plaatsen
+		print("Je bent een genie!")
+
+if not spelerIsGewonnen:
+	# deze blok code wordt enkel uitgevoerd
+	# als spelerIsGewonnen False is
+	print("Je bent verloren ...")
+
+# vanaf hier worden al de volgende
+# regels code weer sowieso uitgevoerd
+print("Einde van het spel")
+\end{pyEnv}
+\end{letsTryOut}
+
+\begin{firstAidToErrors}{IndentationError}
+	Als je een \pySnip{IndentationError} krijgt, dan is er iets mis met de inspringing van je code.
+	Je kan het volgende controleren:
+	\begin{itemize}
+		\item
+			Heb je een \pySnip{if}-statement gebruikt zonder bijhorend \pySnip{if}-blok?
+			Een \pySnip{if}-statement moet minstens één regel code bevatten,
+			anders krijg je deze error.
+		\item
+			Zijn alle regels code die tot hetzelfde blok behoren, allen gelijk ingesprongen?
+			Je mag hiervoor geen spaties en tabs door elkaar gebruiken!
+	\end{itemize}
+\end{firstAidToErrors}
+
+\subsection{\pySnip{else}-statement}
+
+Net zoals dat je een blok code enkel kan laten uitvoeren als een bepaalde voorwaarde waar is,
+kan je een ander blok code enkel laten uitvoeren als diezelfde voorwaarde niet waar is.
+Dus je kan met eenzelfde voorwaarde er voor zorgen dat oftewel het ene blok code oftewel het andere blok code wordt uitgevoerd.
+Dit doen we met met het \pySnip{else: ...}-statement.
+Het \pySnip{else}-statement komt altijd na een \pySnip{if}-statement
+en bevat een blok code dat enkel wordt uitgevoerd als de voorwaarde van het \pySnip{if}-statement niet waar is.
+Bijvoorbeeld, nu kunnen we opnieuw op basis van de waarde van \pySnip{spelerIsGewonnen}
+kiezen of we de boodschap 'Je bent gewonnen!' of 'Je bent verloren ...' tonen.
+Maar deze keer hebben we daar niet meer twee afzonderlijke \pySnip{if}-statements voor nodig.
+We breiden het eerste \pySnip{if}-statement uit met een \pySnip{else}-statement op deze manier:
+\begin{pyEnv}
+# deze code wordt sowieso uitgevoerd
+if voorwaarde:
+	# code die enkel wordt uitgevoerd
+	# als voorwaarde resulteert in True
+	# anders wordt deze code overgeslagen
+else:
+	# code die enkel wordt uitgevoerd
+	# als voorwaarde resulteert in False
+# deze code wordt ook terug altijd uitgevoerd
+\end{pyEnv}
+
+\begin{letsTryOut}
+	Laten we nog eens het voorbeeld van het spel bekijken.
+	Maar deze keer gaan we maar \'e\'en \pySnip{if}-statement gebruiken.
+	\newline
+	Geeft de code de output die jij verwacht had?
+\begin{pyEnv}
+spelerIsGewonnen = False
+aantalPogingen = 7
+
+if spelerIsGewonnen:
+	print("Je ben gewonnen!")
+else:
+	print("Je bent verloren ...")
+	if aantalPogingen < 10:
+		print(
+			"Maar je hebt het goed geprobeerd!"
+		)
+
+print("Einde van het spel")
+\end{pyEnv}
+\end{letsTryOut}
+
+\subsection{\pySnip{elif}-statement}
+
+Nu kunnen we al kiezen of we \'e\'en blok code wel of niet willen uitvoeren door het \pySnip{if}-statement te gebruiken.
+We kunnen ook al kiezen om eventueel een tweede blok code uit te voeren als het eerste blok code niet wordt uitgevoerd.
+Hiervoor hebben we het \pySnip{else}-statement ge\"introduceerd.
+Maar wat als we nu tussen meer dan twee blokken code moeten kunnen kiezen?
+\par
+Bijvoorbeeld, we willen nog altijd de boodschap 'Je bent een genie!' tonen als de speler gewonnen heeft met minder dan 3 pogingen.
+En deze keer willen de boodschap 'Je hebt het goed gedaan!' tonen als de speler gewonnen heeft met minder dan 5 pogingen.
+En anders willen we de boodschap 'Je bent het goed geprobeerd!' tonen.
+Dit kunnen we doen met het \pySnip{elif}-statement.
+Dit doen we als volgt:
+\begin{pyEnv}
+# deze code wordt sowieso uitgevoerd
+if voorwaarde:
+	# code die enkel wordt uitgevoerd
+	# als voorwaarde resulteert in True
+	# anders wordt deze code overgeslagen
+elif andereVoorwaarde:
+	# code die enkel wordt uitgevoerd
+	# als voorwaarde resulteert in False
+	# en andereVoorwaarde resulteert in True
+	# anders wordt deze code overgeslagen
+else:
+	# code die enkel wordt uitgevoerd
+	# als beide, voorwaarde en andereVoorwaarde,
+	# resulteren in False
+# deze code wordt ook terug altijd uitgevoerd
+\end{pyEnv}
+
+Wist je dat je zoveel \pySnip{elif}-statements kan toevoegen als je wil?
+Voor iedere bijkomend \pySnip{elif}-statement geldt dat het bijhorend code blok enkel kan worden uitgevoerd
+als de voorwaarde van het \pySnip{if}-statement en alle voorgaande \pySnip{elif}-statements niet waar zijn.
+\newline
+Wist je ook dat je geen \pySnip{else}-statement moet toevoegen als je dat niet wil?
+
+\begin{letsTryOut}
+	Laten we voor een laatste keer nog eens het voorbeeld van het spel bekijken.
+	Maar deze keer mag jij de code schrijven.
+	Lukt het jou om het \pySnip{if ... elif ... else}-statement
+	te gebuiken om de juiste boodschap te tonen?
+	\begin{itemize}
+		\item Als de speler gewonnen heeft met minder dan 3 pogingen, toon je 'Je bent een genie!'.
+		\item Als de speler gewonnen heeft met minder dan 5 pogingen, toon je 'Je hebt het goed gedaan!'.
+		\item Anders toon je 'Je hebt het goed geprobeerd!'.
+	\end{itemize}
+\end{letsTryOut}
+
+\subsection{\pySnip{if ... elif ... else}: samengevat}
+
+%%CHEAT_SHEET_START
+
+\begin{itemize}
+	\item
+		\pySnip{if voorwaarde:}
+		\newline
+		Een \pySnip{if}-statement laat je toe om een blok code enkel uit te voeren als een bepaalde voorwaarde resulteert tot \true.
+		Het \pySnip{if}-statement is altijd het begin van een \pySnip{if ... elif ... else}-statement.
+	\item
+		\pySnip{elif andereVoorwaarde:}
+		\newline
+		Na een \pySnip{if}-statement kan je meerdere \pySnip{elif}-statements toevoegen als je wil.
+		Een \pySnip{elif}-statement laat je toe om een blok code enkel uit te voeren als de bijhorende voorwaarde \true is
+		en alle voorgaande voorwaarden \false zijn.
+		Een \pySnip{if}-statement hoeft niet altijd gevolgd te worden door een \pySnip{elif}-statement
+		als je dat niet nodig hebt.
+	\item
+		\pySnip{else:}
+		\newline
+		Tot slot laat het \pySnip{else}-statement je toe om een blok code enkel uit te voeren
+		als al de voorgaande voorwaardes allemaal \false zijn.
+		Dit zijn de voorwaardes van het \pySnip{if}-statement en alle eventuele \pySnip{elif}-statements.
+		Net zoals een \pySnip{elif}-statement, moet je het \pySnip{else}-statement ook niet altijd gebruiken.
+		Maar als je het \pySnip{else}-statement gebruikt hebt,
+		dan moet het wel altijd het laatste statement zijn in een \pySnip{if ... elif ... else}-statement.
+\end{itemize}
