@@ -45,27 +45,20 @@ Je mag hiervoor geen spaties en tabs door elkaar gebruiken!
 	\newline
 	Nadien kan je het programma kopiëren en uitvoeren in de interactive shell om te zien of je voorspelling juist was.
 \begin{pyEnv}
-# de uitvoering van dit programma
-# begint hier bij de eerste regel code
 spelerIsGewonnen = True
 aantalPogingen = 2
 
 if spelerIsGewonnen:
-	# deze blok code wordt enkel uitgevoerd
-	# als spelerIsGewonnen True is
 	print("Je ben gewonnen!")
+	
 	if aantalPogingen < 3:
 		# je kan een if-statement ook in
 		# een ander if-statement plaatsen
 		print("Je bent een genie!")
 
 if not spelerIsGewonnen:
-	# deze blok code wordt enkel uitgevoerd
-	# als spelerIsGewonnen False is
 	print("Je bent verloren ...")
 
-# vanaf hier worden al de volgende
-# regels code weer sowieso uitgevoerd
 print("Einde van het spel")
 \end{pyEnv}
 \end{letsTryOut}
