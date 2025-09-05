@@ -1,4 +1,5 @@
 \usepackage{xcolor}
+\usepackage{transparent}
 \usepackage{pgf}
 \usepackage{listings}
 \usepackage{tikz}
@@ -32,6 +33,7 @@
 		{-}{{\textcolor{black}{-}}}1
 		{*}{{\textcolor{black}{*}}}1
 		{/}{{\textcolor{black}{/}}}1
+		{\%}{{\textcolor{black}{\%}}}1
 		{&}{{\textcolor{black}{&}}}1
 		{|}{{\textcolor{black}{|}}}1,
 	commentstyle=\color{gray},
@@ -55,7 +57,6 @@
 	% another option is to use markers to differentiate floats from ints
 	% it's not perfect because it requires an extra action from the user
 	% but it will work towards the generated pdf
-	% moredelim=[is][\bfseries\color{orange}]{FL}{T},
 	moredelim=[is][\bfseries\color{orange}]{@float}{@},
 	% string values
 	% morekeywords=[6]{str},	 
@@ -66,6 +67,8 @@
 	% errors
 	emph=[7]{NameError,IndentationError},	 
 	emphstyle=[7]\bfseries\color{darkRed},
+	% optional syntax highlighting
+	moredelim=[is][\itshape\transparent{0.35}]{@optional}{@},
 	% other styling options
 	frame=ltrb,
 	framexleftmargin=0.7em,

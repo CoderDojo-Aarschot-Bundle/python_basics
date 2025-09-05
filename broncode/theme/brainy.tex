@@ -1,0 +1,24 @@
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+
+
+\definecolor{lightPurple}{rgb}{1, 0.9, 1}
+
+\newenvironment{brainy}{
+	\begin{center}
+		\begin{adjustbox}{bgcolor=lightPurple, cframe=purple}
+			\begin{adjustbox}{margin=1em}
+				\begin{minipage}{.07\linewidth}
+					\includegraphics[width=\linewidth]{theme/brainy.png}
+				\end{minipage}
+				\hspace*{2mm} \textcolor{purple}{\vrule} \hspace*{1mm}
+				\begin{minipage}{.7\linewidth}
+					\raggedright                                                % text alignment justify without ...
+					\itshape
+	}{
+				\end{minipage}
+			\end{adjustbox}
+		\end{adjustbox}
+	\end{center}
+}

@@ -1,0 +1,613 @@
+\section{Herbruikbare blokken}
+
+% In de meest eenvoudige programma's worden de regels code gewoon een na een uitgevoerd in de volgorde dat ze in het programma staan.
+% Voor grotere programma's is dat niet altijd de beste aanpak.
+% Gelukkig hebben we als programmeur een hoop hulpmiddelen waarmee we de volgorde van de uitvoering kunnen manipuleren.
+% Herinner je nog het \pySnip{if}-statement (uit hoofdstuk \ref{sec:voorwaardelijke-uitvoering})
+% dat het mogelijk maakte om blokken code over te slaan?
+% Dit is misschien wel het eenvoudigste hulpmiddel dat we hebben.
+% Ja maar toch niet het enige, hoor ik je al luidop denken.
+% Natuurlijk heb je gelijk, het \pySnip{while}-statement (hoofdstuk \ref{sec:voorwaardelijke-lus}),
+% waarmee we eenzelfde blok code meermaals achtereen konden laten uitvoeren,
+% is ook een goed voorbeeld.
+% \par
+% Een nieuw, heel krachtig hulpmiddel zijn functies.
+% Een functie is blokje code dat niet meteen uitgevoerd wordt wanneer het programma hierover gaat,
+% maar waar we later naar kunnen verwijzen om elders in het programma uitgevoerd te worden.
+% Waarom zouden we nu ooit code schrijven op de ene plaats en het op een andere plaats uitvoeren,
+% dat maakt het programma toch kei ingewikkeld om te verstaan?!
+% Nee, helemaal niet, het maakt de code juist veel leesbaarder!
+% Er zijn verschillende rederen waarom we functies willen gebruiken:
+% \begin{itemize}
+% 	\item
+% 		We hebben een stukje code dat we meermaals willen hergebruiken in het programma.
+% 		Maar deze keer op verschillende plaatsen, dus niet meteen achtereen zoals het geval is bij de \pySnip{while}-lus.
+% 		Eigenlijk is het al een goed idee om meteen een functie te gebruiken vanaf het moment dat je een stukje code een tweede keer wil hergebruiken.
+% 	\item
+% 		We kunnen ook functies gebruiken voor code die we maar \'e\'en keer gaan gebruiken in het programma.
+% 		Dat doen we meestal om de leesbaarheid van het programma te verbeteren.
+% 		Dat kan omdat functies een naam kunnen geven,
+% 		en een goed gekozen naam maakt duidelijker wat de bedoeling van het stukje code is.
+% \end{itemize}
+
+% \subsection{Eenvoudige functies}
+
+% Een functie is een blok code dat we eerst defini\"eren en het daarna pas elders in het programma uit te voeren.
+% Het \pySnip{def}-statement geeft aan dat we een functie gaan defini\"eren.
+% We defini\"eren, en gebruiken, een functie als volgt:
+% \begin{pyEnv}
+% def duidelijkeFunctienaam():
+% 	# code die pas uitgevoerd wordt
+% 	# wanneer we later deze functie aanroepen
+
+% # hieronder wordt de functie opgeroepen
+% # en de code in de functie uitgevoerd
+% duidelijkeFunctienaam()
+% \end{pyEnv}
+% Laten we daar meteen een voorbeeld van bekijken.
+% We gaan een functie defini\"eren die de huidige tijd toont.
+% Deze functie gaan we daarna een paar keer oproepen,
+% telkens met een seconde ertussen.
+% \begin{pyEnv}
+% # we gaan bestaande code gebruiken om de huidige tijd vinden
+% from time import time, sleep
+
+% def toonHuidigeTijd():
+% 	nu = time()             # we maken een variabele
+% 	                        # en slaan de huidige tijd erin op
+% 							# dit zijn al de seconden
+% 							# sinds 1 januari 1970
+% 	nu = int(nu)            # en we ronden meteen af op een geheel getal
+% 	                        # wat na de komma is, hebben we niet nodig
+
+% 	minuten1970 = nu//60    # het aantal minuten sinds 1 januari 1970
+% 	                        # // is gedeeld door, maar dan zonder rest
+	
+% 	minutenDag = minuten1970 % 1440  # nu hebben we enkel de minuten
+% 	                        # sinds het begin van de huidige dag
+% 	                        # % geeft de rest van de deling
+% 	                        # 1440: aantal minuten in een dag (24*60)
+
+% 	uren, minuten = divmod(minutenDag, 60)
+% 	                        # divmod is de deling met quotient en rest
+% 							# dus eigenlijk '//' en '%' gecombineerd
+% 	                        # uren is het quotient, minuten is de rest
+
+% 	# tot slot tonen we de tijd
+% 	# met eventueel een nul vooraan zodat er altijd twee cijfers zijn
+% 	print(f"\r{uren:02d}u{minuten:02d}", end = "")
+
+% toonHuidigeTijd()           # we roepen de functie aan
+% sleep(1)                    # we wachten een seconde
+% toonHuidigeTijd()           # we roepen de functie opnieuw aan
+% sleep(1)                    # we wachten opnieuw een seconde
+% toonHuidigeTijd()           # we roepen de functie nog eens aan
+% \end{pyEnv}
+% Dat zijn meteen heel wat regels code om de huidige tijd te tonen.
+% Door deze regels te combineren in \'e\'en functie,
+% hoeven we dit stukje code maar \'e\'en keer te implementeren,
+% en kunnen we dat daarna zoveel keer, maar echt zo veel keer (!), gebruiken als we maar willen.
+
+% \begin{brainy}
+% 	Heb je ook iets vreemd opgemerkt bij de \pySnip{print} in het voorbeeld hierboven?
+% 	We hebben daar
+% 	\begin{itemize}
+% 		\item
+% 			het \pySnip{end = '...'}-argument gebruikt.
+% 			\newline
+% 			Hierdoor hebben we het normale gedrag van \pySnip{print} aangepast.
+% 			Ipv. een nieuwe regel te starten na de \pySnip{print},
+% 			wordt er nu niets gedaan na de \pySnip{print}.
+% 			Nu wordt de volgende \pySnip{print}meteen op dezelfde regel getoond.
+% 		\item
+% 			het \pySnip{'\\r'}-karakter gebruikt.
+% 			\newline
+% 			Dit zorgt ervoor dat de cursor terug helemaal naar het begin van de regel gaat.
+% 	\end{itemize}
+% 	Samen zorgen deze twee ervoor dat we steeds de vorige tijd overschrijven.
+% 	Zo krijgen we een klok-effect.
+% \end{brainy}
+
+\begin{pyEnv}
+# start van het spel
+score = 0
+
+# toon de score (als twee karakters lang)
+print("Huidige score: ", end = "")
+if score < 10:
+	print("0", end = "")
+print(str(score))
+
+# je hebt geluk: je krijgt meteen wat punten cadeau!
+score += 7
+
+# toon de nieuwe score (opnieuw als twee karakters lang)
+print("Huidige score: ", end = "")
+if score < 0:
+	print("0", end = "")
+print(str(score))
+
+# bonus verdient, goed bezig!
+score += 5
+
+# nieuwe score, dus weeral tonen
+print("Huidige score: ", end = "")
+if score < 0:
+	print("0", end = "")
+print(str(score))
+
+# enz. ...
+\end{pyEnv}
+Interessant spel he?
+We zijn al meteen goed bezig!
+Maar er lijken wel veel regels code te zijn die telkens terugkomen.
+Dat kunnen we vast efficiënter doen.
+Jazeker, welkom in de wondere wereld van de functies!% (incl. bonuslevels)!
+\par
+Een functie is blokje code dat we schrijven,
+maar dat niet meteen uitgevoerd mag worden.
+Als we later in het programma naar deze functie verwijzen,
+dan wordt de code in de functie pas uitgevoerd.
+Nu hoor ik je al denken: "Maken we het zo niet gewoon ingewikkeld?".
+Nee, helemaal niet, het maakt de code juist veel leesbaarder!
+Functies zullen ons o.a. helpen als we:
+\begin{itemize}
+	\item
+		een stukje code niet \'e\'e keer,
+		maar meermaals willen hergebruiken in het programma.
+	\item
+		de leesbaarheid van het programma te verhogen.
+		Dat kunnen we omdat we functies een naam geven.
+		Met deze naam, kan je samenvatten wat een hele blok code eigenlijk doet.
+	\item
+		Je gaat vast nog voorbeelden vinden waarbij je een functie zal willen gebruiken!
+\end{itemize}
+
+\subsection{Eenvoudige functies}
+
+Een functie is een blok code dat we eerst defini\"eren en het daarna pas elders in het programma uit te voeren.
+Het \pySnip{def}-statement geeft aan dat we een functie gaan defini\"eren.
+We defini\"eren, en gebruiken, een functie als volgt:
+\begin{pyEnv}
+def duidelijkeFunctienaam():
+	# code die pas uitgevoerd wordt
+	# wanneer we later deze functie aanroepen
+
+# hieronder wordt de functie opgeroepen
+# en de code in de functie uitgevoerd
+duidelijkeFunctienaam()
+\end{pyEnv}
+We hadden gezegd dat we het voorbeeldje hierboven zouden kunnen inkorten
+wanneer we functies kunnen toepassen, niet?
+Jawel, dan gaat we dat ook meteen eens proberen:
+\begin{pyEnv}
+# we maken de functie om de score te tonen
+# deze code in de functie wordt voorlopig overgeslagen
+def toonScore():
+	# toon de score (als twee karakters lang)
+	print("Huidige score: ", end = "")
+	if score < 10:
+		print("0", end = "")
+	print(str(score))
+
+score = 0                   # start van het spel
+
+toonScore()                 # toon de initiele score
+
+score += 7                  # je hebt geluk: meteen wat punten cadeau!
+
+toonScore()                 # toon de nieuwe score
+
+score += 5                  # bonus verdient, goed bezig!
+
+toonScore()                 # nieuwe score, dus weeral tonen
+
+# enz. ...
+\end{pyEnv}
+Dat is nu toch veel leesbaarder, he.
+\newline
+Mission completed: we kunnen functies maken en gebruiken!
+
+\begin{letsTryOut}
+	Oei, aan het tempo dat we bezig zijn,
+	gaan rap scores boven de 100 hebben!
+	\newline
+	We zouden de score als 3 karakters ipv. slechts twee moeten tonen.
+	Ik heb iets gevonden dat lijkt te werken:
+\begin{pyEnv}
+if score < 100:
+	print("0", end = "")
+toonScore()
+\end{pyEnv}
+	Als ik dit \pySnip{if}-statement overal kopi\"eer voor iedere \pySnip{toonScore()},
+	dan lijkt ons probleem opgelost, oef.
+	\newline
+	Klopt dat denk je, zal de score nu correct als 3 karakters worden getoond?
+	\newline
+	Probeer het zeker eens uit!
+	\newline
+	\newline
+	Maar is dat nu wel de juiste oplossing?
+	Ik blijf maar denken dat het beter kan,
+	maar kan zelf niet vinden hoe.
+	\newline
+	Kan jij een betere oplossing voorstellen?
+	\newline
+	Laten we jouw oplossing ook eens uitproberen!
+\begin{pyEnv}
+>>> ... # jouw oplossing, ik ken ze nog niet he ;)
+\end{pyEnv}
+\end{letsTryOut}
+
+\begin{brainy}
+	\pySnip{print(_, end = '...')}
+	\newline
+	\newline
+	Had je deze \pySnip{end = '...'} ook gezien in het voorbeeld?
+	\newline
+	Hierdoor hebben we het normale gedrag van \pySnip{print} aangepast.
+	Ipv. een nieuwe regel te starten na de \pySnip{print},
+	wordt er nu niets gedaan na de \pySnip{print}.
+	De volgende \pySnip{print} wordt dus meteen op dezelfde regel getoond.
+\end{brainy}
+
+\subsection{Functies met argumenten}
+
+In een functie defini\"eren we code dat we meermaals willen hergebruiken.
+Herinner je dat we soms variabelen maken om later in de code te kunnen gebruiken
+(hoofdstuk \ref{sec:variabelen})?
+Zo gaan we ook code willen hergebruiken dat iets doet met een waarde.
+We gaan deze code willen kunnen oproepen, maar telkens met een andere waarde(s) als uitgangspunt.
+En ook dat kunnen we met functies.
+Al moeten we deze waarde(s) nu wel extra kunnen meegeven: dat gaat via functie-argumenten.
+We doen dit als volgt:
+\begin{pyEnv}
+def functienaam(arg0@optional: type@, arg1@optional: type@, ...):
+	# code van de functie
+	# * binnen de functie kunnen we de argumenten
+	#   gebruiken als gewone variabelen
+	# * ': type' mag je gebruiken om aan te geven
+	#   wat voor soort gegevens de argumenten zijn
+	#   maar het is niet verplicht
+
+# hieronder roepen we de functie aan
+# en geven we waardes mee aan de argumenten
+functienaam(waarde0, waarde1, ...)
+\end{pyEnv}
+Ben je al helemaal mee?
+Ik nog niet helemaal hoor.
+Maar da's niks, een voorbeeld doet wonderen.
+We gaan nog eens de score tonen.
+Deze keer gaan we het maximum er ook bij tonen.
+Het tonen van de score en het maximum gaan we telkens op dezelfde manier tonen.
+Dat zal dus een functie worden.
+Maar de score, alsook het maximum, zijn waardes die kunnen veranderen.
+Deze zullen we dus moeten meegeven als argumenten.
+We zouden bijvoorbeeld de functie zo kunnen opbouwen:
+\begin{pyEnv}
+def toonScore(score@optional: int@, maximum@optional: int@):
+	print(f"Huidige score: {score:3d}/{maximum:d}")
+
+# voorbeeld van het aanroepen van de functie
+toonScore(47, 50)  # de speler heeft bijna het maximum!
+\end{pyEnv}
+Hierin worden de score en het maximum als argumenten meegegeven.
+Daarna worden ze als zijnde variabelen gebruikt binnenin de functie.
+Als je deze zin leest, dan heb je alles gelezen van functies met argumenten.
+Je met glans en glorie geslaagd!
+Op naar de volgende ronde.
+
+\subsection{Het \pySnip{return}-statement}
+
+6u58 \dots 6u59 \dots 7u00 BIEB BIEB BIEB!
+\newline
+Hey, het is wel zaterdag he!
+\newline
+Geen school vandaag, vlug snoozen en blijf ik nog vijf minuten liggen.
+\newline
+\par
+Herken je deze situatie?
+Natuurlijk niet, het is weekend, een ganse dag om te ravotten!
+Dan heb ik toch geen wekker nodig om op te staan, duh.
+Maar toch, kan je geloven dat sommigen toch eerst nog eens snoozen alvorens op te staan?
+Hoe zou de wekker dat afhandelen?
+\par
+Snoozen wil zeggen: de wekker stopt en gaat vijf minuten later opnieuw af.
+De nieuwe tijd is dus vijf minuten na het moment dat onze schone slaper op snooze duwt.
+De nieuwe tijd berekenen is een taak dat een wekker wel vaker moet doen,
+een functie dus!
+\newline
+Alhoewel, het resultaat van de berekening hebben we wel nodig.
+Wanneer een functie eindigt,
+dan spring de uitvoering van het programma terug naar de plaats waar de functie opgeroepen was.
+Zijn we dan het resultaa gewoon kwijt?
+Helemaal niet, we kunnen het resultaat van een functie teruggegeven aan het programma.
+Dat is waarvoor we het \pySnip{return}-statement gebruiken:
+\begin{pyEnv}
+def functieMetResultaat(arg0@optional: type@, arg1@optional: type@, ...)@optional -> type@:
+    # de code van de functie
+	# ditmaal met een waarde
+	# die teruggegeven moet worden
+	return waarde           # een constante waarde
+	                        # of een variabele
+	# de functie wordt onheroepelijk gestopt
+	# na het return-statement
+	# code erna wordt NIET meer uitgevoerd
+
+# nu kunnen we de functie oproepen
+# en gebruiken op elke plaats
+# waar we ook een waarde kunnen gebruiken
+# vb: hier bewaren we het resultaat in een variabele
+variabele = functieMetResultaat(waarde0, waarde1, ...)
+\end{pyEnv}
+En zo gaan we het \pySnip{return}-statement meestal gebruiken.
+Maar daarnaast zullen deze weetjes je ook zeker helpen:
+\begin{itemize}
+	\item
+		De functie stopt meteen na het \pySnip{return}-statement.
+		Iedere regel code na een \pySnip{return}-statement wordt niet (maar echt niet he) uitgevoerd.
+		Het verloop van het programma springt meteen terug naar de plaats waar de functie werd opgeroepen.
+	\item
+		Het \pySnip{return}-statement kan alleen maar gebruikt worden binnen een functie.
+		Als je \pySnip{return} gebruikt buiten een functie,
+		dan zal het programma eindigen met een error daar waar het \pySnip{return}-statement
+		foutief gebruikt wordt.
+	\item
+		Ja hoeft niet altijd een waarde mee te geven met een \pySnip{return}-statement.
+		Je kan het \pySnip{return}-statement ook gebruiken zonder een waarde mee te geven.
+		Dan zorgt het \pySnip{return}-statement er gewoon voor dat de functie stopt.
+		Dit kan handog zijn in een \pySnip{if}, \pySnip{else}, \pySnip{while} blok.
+\end{itemize}
+Allemaal goed en wel, maar hoe doen we dat nu?
+Wel, de functie die onze wekker gebruikt,
+zou er weleens zo uit kunnen zien:
+\begin{pyEnv}
+def tijdNaSnoozen(uren@optional: int@, minuten@optional: int@)@optional -> Tuple[int, int]@:
+    minuten += 5            # we moeten er 5 minuten bijtellen
+	if minuten >= 60:
+	    # we moeten de uren verhogen als er meer dan 60 minuten zijn
+	    minuten -= 60
+		uren += 1
+	return uren, minuten
+
+# nu gaan we de functie gebruiken
+# en kunnen we de nieuwe tijd voor de wekker
+uren, minuten = tijdNaSnoozen(7, 1)
+print(f"Wekker gaat nu af om {uren:02d}:{minuten:02d}")
+\end{pyEnv}
+
+\begin{letsTryOut}
+\begin{pyEnv}
+>>> tijdNaSnoozen(7, 1)
+>>> tijdNaSnoozen(7, 56)
+\end{pyEnv}
+	Klopt het resultaat?
+	\newline
+	Is dat altijd zo denk je?
+	Dan heb je dit nog niet geprobeerd:
+\begin{pyEnv}
+>>> tijdNaSnoozen(23, 58)
+\end{pyEnv}
+	Kan jij de functie aanpassen zodat dit ook werkt?
+\end{letsTryOut}
+
+\subsection{Recursieve functies}
+
+Zeer besten lezer \dots
+\newline
+Sluit de ogen en ontspan.
+\newline
+(En doe ze ook maar weer open, anders wordt het moeielijk lezen \dots)
+\newline
+Alleen zo zal de magie tot jou komen!
+\newline
+\newline
+Welja, wat we nu gaan ontdekken is nu toch wel echt een klein beetje speciaal hoor.
+Dus ik vond zo een intro wel plezant!
+Misschien dacht je nu nog dat je een functie alleen maar kan gebruiken, pas nadat ze gedifini\"eert is?
+Wel, dan gaat het volgende plezant worden!
+
+\subsubsection{$n$ faculteit}
+
+Stel dat we nu eens het product willen weten van alle getallen van 1 tot en met een gegeven getal $n$.
+Bijvoorbeeld, we geven als input het getal 5, dan moet het resultaat 120 (= $1*2*3*4*5$) zijn.
+Dit product wordt met een moeilijk woord 'faculteit' genoemd.
+Zo is '5 faculteit' gelijk aan 120, of '2 faculteit' gewoon 2 (want $1*2 = 2$).
+Een hele toffe eigenschap is dat als je '5 faculteit' kent, dan je dan heel eenvoudig '6 faculteit' kunt vinden.
+Ah ja, '6 faculteit' is gelijk aan 6*'5 faculteit' ($6*5*4*3*2*1 = 6*(5*4*3*2*1)$) oftewel 720.
+En dat is een algemene eigenschap, '$n$ faculteit' is gelijk aan $n$*'$n - 1$ faculteit'
+\par
+We kunnen nu de functie \pySnip{def faculteit(n@optional: int@)@optional -> int@} maken.
+Maar we gaan niet het hele product uit rekenen in de functie, we gaan lui zijn!
+We gaan gewoon $n$ vermenigvuldigen met het resultaat van \pySnip{faculteit(n - 1)}.
+En we weten dat die functie \pySnip{faculteit(_)} bestaat, want die zijn we nu aan het maken!
+Een beetje verward, niet?
+Geen zorgen, laten we het gewoon eens proberen:
+\begin{pyEnv}
+def faculteit(n@optional: int@)@optional -> int@:
+	if n == 1:              # triviaal geval
+		                    # we moeten kunnen stoppen op het eind
+		return 1            # '1 faculteit' is 1
+	else:                   # recursief geval
+		return n*faculteit(n - 1)  # n faculteit = n*'(n - 1) faculteit'
+\end{pyEnv}
+Een functie die zichzelf aanroept, dat noemen we nu een recursieve functie.
+
+\begin{letsTryOut}
+	Nooit zomaar geloven wat je gezegt wordt, he!
+	Niets zegt dat dit echt werkt.
+	Er is maar \'e\'en manier om daar achter te komen!
+	\newline
+	We proberen het gewoon uit!
+	Wat denk je dat het volgende gaat geven?
+\begin{pyEnv}
+>>> faculteit(1)
+>>> faculteit(5)
+>>> faculteit(6)
+>>> faculteit(20)
+\end{pyEnv}
+	Zaten we juist?
+\end{letsTryOut}
+
+\begin{letsTryOut}
+	Waarom hebben we eigenlijk \pySnip{if n == 1: return 1} gebruikt?
+	Zo het niet werken zonder dat stukje code?
+	Denk je dat deze functie ook gaat werken?
+\begin{pyEnv}
+def faculteit(n@optional: int@)@optional -> int@:
+	return n*faculteit(n - 1)
+\end{pyEnv}
+	Probeer het eens uit!
+	\newline
+	Wat zie je gebeuren?
+	En waarom denk je dat dit gebeurt?
+\end{letsTryOut}
+
+\subsubsection{De reeks van Fibonacci}
+
+Herinner je je de reeks van Fibonacci nog uit hoofdstuk \ref{sec:voorwaardelijke-lus}?
+Of heb je dat hoofdstuk stiekem overgeslagen?
+In dat geval zullen hem eventjes opfrissen.
+\par
+De reeks van Fibonacci is een getallenrij waarbij ieder getal de som is van de twee voorgaande getallen.
+De rij begint met tweemaal het getal 1.
+Als we dat toepassen, dan krijgen we voor de eerste getallen: 1, 1, 2, 3, 5, 8, 13, 21, 34, ... .
+\newline
+Oftewel, het $n^{de}$ Fibonacci getal is de som van het $(n - 1)^{ste}$ Fibonacci getal en het $(n - 2)^{de}$ Fibonacci getal.
+En met de bijkomende criteria dat zowel het eerste als het tweede Fibonacci getallen beide 1 zijn.
+\par
+Wel, voor de reeks van Fibonacci kunnen we ook handig gebruik maken van recursie.
+Maar nu we gaan we het voor de verandering eens omgekeerd doen:
+kan jij me het voorbeeld maken en er zo voor zorgen dat ik het ook snap?
+\begin{letsTryOut}
+	We gaan proberen (en slagen!) de volgende functie maken:
+\begin{pyEnv}
+def fibonacci(n@optional: int@)@optional -> int@:
+	...
+\end{pyEnv}
+	Wat hebben we nodig?
+	\begin{itemize}
+		\item
+			Het eerste element is $1$.
+			\newline
+			$\Rightarrow$ \pySnip{fibonacci(1) == 1}
+		\item
+			Het tweede element is ook $1$.
+			\newline
+			$\Rightarrow$ \pySnip{fibonacci(2) == 1}
+		\item
+			Elk volgend element is de som van de twee voorgaande elementen.
+			\newline
+			$\Rightarrow$ \pySnip{fibonacci(n) == fibonacci(n - 2) + fibonacci(n - 1)}
+	\end{itemize}
+	Kan jij de functie afmaken?
+	\newline
+	Is het je gelukt denk je?
+\begin{pyEnv}
+>>> fibonacci(1)
+>>> fibonacci(5)
+>>> faculteit(10)
+\end{pyEnv}
+	Krijg je het verwachte resultaat?
+	\newline
+	\newline
+	Je mag zeker je oplossing tonen!
+	Ook als je het niet helemaal kan vinden,
+	het lukt ons vast en zeker samen wel!
+\end{letsTryOut}
+
+\subsection{Functies die je al gebruikt hebt}
+
+Heb je dit hoofdstukje goed \textit{gesnopen}?
+Dan is je misschien al opgevallen dat je (bestaande) functies eigenlijk al gebruikt hebt.
+\begin{itemize}
+	\item
+		Zo is \pySnip{print(...)} een functie die we al heel vaak gebruikt hebben.
+		Het is een functie die de argumenten die we meegeven toont op het scherm.
+	\item
+		Ook \pySnip{waarde = input(...)} is een functie die we al gebruikt hebben.
+		Deze functie toont de tekst die we als argument meegeven op het scherm,
+		en wacht daarna tot de gebruiker iets intypt en op enter drukt.
+		De functie geeft dan de tekst die de gebruiker heeft ingetikt terug.
+	\item
+		Nog een ander voorbeeld zijn de functies \pySnip{int(...)}, \pySnip{float(...)}, \pySnip{str(...)}, \dots .
+		Elk van deze functies probeert om de waarde, die we als argument meegeven, om te zetten naar het respectievelijke gegevens type.
+	\item
+		Tot slot zijn er nog zo vele andere functies die anderen voor ons al hebben gemaakt.
+		Bijvoorbeeld, in het voorbeeld van de klok hebben we de functie \pySnip{time()} gebruikt.
+		Deze functie komt uit de \pySnip{time}-module waar we eerst naar moesten verwijzen,
+		anders had python niet geweten waar deze functie te vinden was.
+\end{itemize}
+
+\subsection{Een korte samenvatting}
+
+%%CHEAT_SHEET_START
+
+\begin{itemize}
+	\item
+		\pySnip{def functienaam(): ...}
+		\newline
+		Met het \pySnip{def}-statement defini\"er je een functie.
+		De code in de functie wordt niet meteen uitgevoerd,
+		maar pas wanneer je deze functie aanroept.
+	\item
+		\pySnip{functienaam()}
+		\newline
+		Door de functienaam te combineren met haakjes,
+		roep je de functie aan.
+		Nu wordt de code in de functie uitgevoerd.
+	\item
+		\pySnip{def functienaam(arg0@optional: type@, arg1@optional: type@, ...): ...}
+		\newline
+		Functies kunnen \'e\'en of meerdere argumenten hebben.
+		Argumenten zijn waardes die je aan de functie doorgeeft.
+		Binnen de functie kan je deze argumenten gebruiken als gewone variabelen.
+	\item
+		\pySnip{def functienaam()@optional -> returnType@: return ...}
+		\newline
+		Het \pySnip{return}-statement
+		\begin{itemize}
+			\item
+				be\"eindigt de uitvoering van een functie meteen,
+				zelfs als er nog code had achter gestaan.
+			\item
+				kan gevolgd worden door een waarde.
+				Dan wordt deze waarde door de functie teruggegeven,
+				en kan je verder gebruiken in de code. %op de plaats waar je de functie hebt aangeroepen.
+			\item
+				mag je alleen gebruiken binnen in een functie.
+				% Als je \pySnip{return} gebruikt buiten een functie,
+				% dan zal je een error krijgen.
+		\end{itemize}
+		% be\"eindigt de uitvoering van een functie meteen,
+		% zelfs als er nog regels code hadden achter gestaan.
+		% \newline
+		% Als er een waarde achter \pySnip{return} staat,
+		% dan wordt deze waarde door de functie teruggegeven.
+		% Je kan deze waarde verder gebruiken op de plaats waar je de functie hebt aangeroepen.
+		% \newline
+		% Je mag het \pySnip{return}-statement alleen maar gebruiken binnen in een functie.
+		% Als je \pySnip{return} gebruikt buiten een functie,
+		% dan zal je een error krijgen.
+	\item
+		\pySnip{def functienaam(arg00@optional: type@, arg1@optional: type@, ...)@optional -> returnType@: return ...}
+		\newline
+		Natuurlijk kan een functie zowel argumenten als een \pySnip{return}-waarde hebben.
+	\item
+		Enkele voorbeelden van functies die je waarschijnlijk al gebruikt hebt:
+		\begin{itemize}
+			\item
+				\pySnip{print(...)}
+				\newline
+				toont die de argumenten die we meegeven op het scherm.
+			\item
+				\pySnip{waarde = input(...)}
+				\newline
+				toont de tekst van het argument op het scherm,
+				en geeft de input van de gebruiker daarna terug als \pySnip{str}.
+			\item
+				\pySnip{int(...)}, \pySnip{float(...)}, \pySnip{str(...)}, \dots
+				\newline
+				probeert om de waarde die we als argument meegeven om te zetten naar het respectievelijke gegevens type.
+		\end{itemize}
+\end{itemize}
